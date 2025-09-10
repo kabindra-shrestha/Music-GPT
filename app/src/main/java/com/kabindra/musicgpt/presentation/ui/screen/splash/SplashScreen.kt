@@ -25,8 +25,6 @@ import com.kabindra.musicgpt.presentation.ui.component.TextComponent
 import com.kabindra.musicgpt.presentation.viewmodel.remote.splash.SplashEvent
 import com.kabindra.musicgpt.presentation.viewmodel.remote.splash.SplashViewModel
 import com.kabindra.musicgpt.utils.Connectivity
-import com.kabindra.musicgpt.utils.constants.ErrorType.Companion.ERROR_NO_NETWORK_CONNECTIVITY
-import com.kabindra.musicgpt.utils.constants.ErrorType.Companion.ERROR_TITLE_NO_NETWORK_CONNECTIVITY
 import com.kabindra.musicgpt.utils.error.GlobalErrorDialog
 import com.kabindra.musicgpt.utils.getPlatform
 import com.kabindra.musicgpt.utils.success.GlobalSuccessDialog
@@ -51,7 +49,7 @@ fun SplashScreen(
         }
     }
 
-    if (!isConnected) {
+    /*if (!isConnected) {
         GlobalErrorDialog(
             isVisible = true,
             statusCode = -1,
@@ -61,7 +59,7 @@ fun SplashScreen(
             },
         )
         return
-    }
+    }*/
 
     LaunchedEffect(Unit) {
         splashViewModel.onEvent(SplashEvent.CheckSplash)

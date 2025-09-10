@@ -19,9 +19,6 @@ import androidx.compose.ui.unit.dp
 import com.kabindra.musicgpt.presentation.ui.component.AppIcon
 import com.kabindra.musicgpt.presentation.ui.component.TextComponent
 import com.kabindra.musicgpt.utils.Connectivity
-import com.kabindra.musicgpt.utils.constants.ErrorType.Companion.ERROR_NO_NETWORK_CONNECTIVITY
-import com.kabindra.musicgpt.utils.constants.ErrorType.Companion.ERROR_TITLE_NO_NETWORK_CONNECTIVITY
-import com.kabindra.musicgpt.utils.error.GlobalErrorDialog
 
 @Composable
 fun SearchScreen(
@@ -39,7 +36,7 @@ fun SearchScreen(
         }
     }
 
-    if (!isConnected) {
+    /*if (!isConnected) {
         GlobalErrorDialog(
             isVisible = true,
             statusCode = -1,
@@ -49,7 +46,7 @@ fun SearchScreen(
             },
         )
         return
-    }
+    }*/
 
     Box(modifier = Modifier.fillMaxSize()) {
         AppIcon(

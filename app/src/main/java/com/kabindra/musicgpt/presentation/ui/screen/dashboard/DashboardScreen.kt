@@ -18,11 +18,8 @@ import com.kabindra.musicgpt.presentation.ui.component.BottomNavigationBarCompon
 import com.kabindra.musicgpt.presentation.ui.screen.navigation.AppBackHandler
 import com.kabindra.musicgpt.presentation.ui.screen.navigation.Route
 import com.kabindra.musicgpt.utils.Connectivity
-import com.kabindra.musicgpt.utils.constants.ErrorType.Companion.ERROR_NO_NETWORK_CONNECTIVITY
-import com.kabindra.musicgpt.utils.constants.ErrorType.Companion.ERROR_TITLE_NO_NETWORK_CONNECTIVITY
 import com.kabindra.musicgpt.utils.enums.MenuType
 import com.kabindra.musicgpt.utils.enums.getMenuType
-import com.kabindra.musicgpt.utils.error.GlobalErrorDialog
 
 @Composable
 fun DashboardScreen(
@@ -44,7 +41,7 @@ fun DashboardScreen(
         }
     }
 
-    if (!isConnected) {
+    /*if (!isConnected) {
         GlobalErrorDialog(
             isVisible = true,
             statusCode = -1,
@@ -54,7 +51,7 @@ fun DashboardScreen(
             },
         )
         return
-    }
+    }*/
 
     Scaffold(
         bottomBar = {

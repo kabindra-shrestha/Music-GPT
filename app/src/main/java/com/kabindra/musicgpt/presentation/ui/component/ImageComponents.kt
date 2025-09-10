@@ -83,6 +83,7 @@ fun ImageHandlerRes(
         .height(250.dp),
     image: Int = R.drawable.splash_icon,
     contentDescription: String = "",
+    tint: Color? = null,
     circular: Boolean = false,
     backgroundColor: Color = transparent
 ) {
@@ -98,7 +99,8 @@ fun ImageHandlerRes(
             ),
         painter = painterResource(image),
         contentDescription = contentDescription,
-        contentScale = ContentScale.Fit
+        contentScale = ContentScale.Fit,
+        colorFilter = tint?.let { ColorFilter.tint(tint) }
     )
 }
 

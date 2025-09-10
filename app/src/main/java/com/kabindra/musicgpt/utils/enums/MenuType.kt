@@ -1,44 +1,39 @@
 package com.kabindra.musicgpt.utils.enums
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Dashboard
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Recommend
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.ui.graphics.vector.ImageVector
+import com.kabindra.musicgpt.R
 import com.kabindra.musicgpt.presentation.ui.screen.navigation.Route
 
 enum class MenuType(
     val title: String,
-    val icon: ImageVector?,
+    val icon: Int?,
     val slug: String,
     val route: Route?,
     val isBottomNavigation: Boolean = false
 ) {
     Home(
         "Home",
-        Icons.Default.Dashboard,
+        R.drawable.generate_ai_icon,
         "home",
         Route.HomeRoute,
         isBottomNavigation = true
     ),
     Search(
         "Search",
-        Icons.Default.Search,
+        R.drawable.discover_icon,
         "search",
         Route.SearchRoute,
         isBottomNavigation = true
     ),
     Recommended(
         "Recommended",
-        Icons.Default.Recommend,
+        R.drawable.user_icon,
         "recommended",
         Route.RecommendedRoute,
         isBottomNavigation = true
     ),
     Profile(
         "Profile",
-        Icons.Default.Person,
+        R.drawable.reel_icon,
         "profile",
         Route.ProfileRoute,
         isBottomNavigation = true

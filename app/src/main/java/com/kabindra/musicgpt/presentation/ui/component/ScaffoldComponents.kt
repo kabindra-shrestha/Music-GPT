@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -24,6 +25,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.kabindra.musicgpt.R
 import com.kabindra.musicgpt.presentation.ui.screen.navigation.Route
+import com.kabindra.musicgpt.presentation.ui.theme.bottomNavigationSelected
+import com.kabindra.musicgpt.presentation.ui.theme.bottomNavigationUnselected
+import com.kabindra.musicgpt.presentation.ui.theme.transparent
 import com.kabindra.musicgpt.utils.enums.MenuType
 
 @Composable
@@ -121,28 +125,40 @@ fun BottomNavigationBarComponent(
                 NavigationBarItem(
                     icon = {
                         label.icon?.let {
-                            ImageHandlerVector(
+                            ImageHandlerRes(
                                 modifier = Modifier
                                     .size(32.dp)
                                     .padding(1.dp),
                                 image = it,
-                                contentDescription = label.title
+                                contentDescription = label.title,
+                                tint = if (label.route != null && selectedRoute.contains(label.route::class.qualifiedName!!)) {
+                                    bottomNavigationSelected
+                                } else {
+                                    bottomNavigationUnselected
+                                }
                             )
                         }
                     },
                     label = {
-                        TextComponent(
+                        /*TextComponent(
                             text = label.title,
                             textAlign = TextAlign.Center,
                             maxLines = 3,
                             size = TextSize.Small
-                        )
+                        )*/
                     },
                     selected = if (label.route != null) {
                         selectedRoute.contains(label.route::class.qualifiedName!!)
                     } else {
                         false
                     },
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = bottomNavigationSelected,
+                        unselectedIconColor = bottomNavigationUnselected,
+                        selectedTextColor = bottomNavigationSelected,
+                        unselectedTextColor = bottomNavigationUnselected,
+                        indicatorColor = transparent
+                    ),
                     onClick = {
                         onClick(label.slug)
                     }

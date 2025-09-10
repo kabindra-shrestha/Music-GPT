@@ -19,9 +19,6 @@ import com.kabindra.musicgpt.presentation.ui.component.TopAppBarWithIconAndNameC
 import com.kabindra.musicgpt.presentation.viewmodel.remote.home.HomeEvent
 import com.kabindra.musicgpt.presentation.viewmodel.remote.home.HomeViewModel
 import com.kabindra.musicgpt.utils.Connectivity
-import com.kabindra.musicgpt.utils.constants.ErrorType.Companion.ERROR_NO_NETWORK_CONNECTIVITY
-import com.kabindra.musicgpt.utils.constants.ErrorType.Companion.ERROR_TITLE_NO_NETWORK_CONNECTIVITY
-import com.kabindra.musicgpt.utils.error.GlobalErrorDialog
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -42,7 +39,7 @@ fun HomeScreen(
         }
     }
 
-    if (!isConnected) {
+    /*if (!isConnected) {
         GlobalErrorDialog(
             isVisible = true,
             statusCode = -1,
@@ -52,7 +49,7 @@ fun HomeScreen(
             },
         )
         return
-    }
+    }*/
 
     LaunchedEffect(Unit) {
         homeViewModel.onEvent(HomeEvent.CheckHome)
