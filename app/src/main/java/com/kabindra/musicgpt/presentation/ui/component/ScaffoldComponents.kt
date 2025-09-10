@@ -1,12 +1,15 @@
 package com.kabindra.musicgpt.presentation.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -19,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -54,7 +58,14 @@ fun TopAppBarComponent(
     onBackNavigate: () -> Unit
 ) {
     TopAppBar(
-        title = { TextSmall(text = title) },
+        title = {
+            TextComponent(
+                modifier = Modifier.fillMaxWidth(),
+                text = title,
+                size = TextSize.Small,
+                textAlign = TextAlign.Start
+            )
+        },
         modifier = modifier,
         navigationIcon = {
             if (canNavigateBack) {
@@ -83,7 +94,9 @@ fun TopAppBarWithIconAndNameComponent(
         TextComponent(
             modifier = Modifier.fillMaxWidth(),
             text = LocalResources.current.getString(R.string.app_name),
+            type = TextType.Title,
             size = TextSize.Large,
+            fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Start
         )
     }
@@ -118,51 +131,56 @@ fun BottomNavigationBarComponent(
     selectedRoute: String = Route.DashboardRoute::class.qualifiedName!!,
     onClick: (selectedSlug: String) -> Unit
 ) {
-    NavigationBar {
-        MenuType.entries
-            .filter { it.isBottomNavigation }
-            .forEachIndexed { index, label ->
-                NavigationBarItem(
-                    icon = {
-                        label.icon?.let {
-                            ImageHandlerRes(
-                                modifier = Modifier
-                                    .size(32.dp)
-                                    .padding(1.dp),
-                                image = it,
-                                contentDescription = label.title,
-                                tint = if (label.route != null && selectedRoute.contains(label.route::class.qualifiedName!!)) {
-                                    bottomNavigationSelected
-                                } else {
-                                    bottomNavigationUnselected
-                                }
-                            )
+    Column {
+        HorizontalDivider()
+        NavigationBar(
+            containerColor = MaterialTheme.colorScheme.background
+        ) {
+            MenuType.entries
+                .filter { it.isBottomNavigation }
+                .forEachIndexed { index, label ->
+                    NavigationBarItem(
+                        icon = {
+                            label.icon?.let {
+                                ImageHandlerRes(
+                                    modifier = Modifier
+                                        .size(32.dp)
+                                        .padding(1.dp),
+                                    image = it,
+                                    contentDescription = label.title,
+                                    tint = if (label.route != null && selectedRoute.contains(label.route::class.qualifiedName!!)) {
+                                        bottomNavigationSelected
+                                    } else {
+                                        bottomNavigationUnselected
+                                    }
+                                )
+                            }
+                        },
+                        label = {
+                            /*TextComponent(
+                                text = label.title,
+                                textAlign = TextAlign.Center,
+                                maxLines = 3,
+                                size = TextSize.Small
+                            )*/
+                        },
+                        selected = if (label.route != null) {
+                            selectedRoute.contains(label.route::class.qualifiedName!!)
+                        } else {
+                            false
+                        },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = bottomNavigationSelected,
+                            unselectedIconColor = bottomNavigationUnselected,
+                            selectedTextColor = bottomNavigationSelected,
+                            unselectedTextColor = bottomNavigationUnselected,
+                            indicatorColor = transparent
+                        ),
+                        onClick = {
+                            onClick(label.slug)
                         }
-                    },
-                    label = {
-                        /*TextComponent(
-                            text = label.title,
-                            textAlign = TextAlign.Center,
-                            maxLines = 3,
-                            size = TextSize.Small
-                        )*/
-                    },
-                    selected = if (label.route != null) {
-                        selectedRoute.contains(label.route::class.qualifiedName!!)
-                    } else {
-                        false
-                    },
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = bottomNavigationSelected,
-                        unselectedIconColor = bottomNavigationUnselected,
-                        selectedTextColor = bottomNavigationSelected,
-                        unselectedTextColor = bottomNavigationUnselected,
-                        indicatorColor = transparent
-                    ),
-                    onClick = {
-                        onClick(label.slug)
-                    }
-                )
-            }
+                    )
+                }
+        }
     }
 }

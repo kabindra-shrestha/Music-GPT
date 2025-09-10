@@ -64,7 +64,7 @@ val errorContainerDark = Color(0xFF7F0000) // Darker red for error container
 val onErrorContainerDark = Color(0xFFFF5733) // White text/icons on error container
 
 // Background and surface colors
-val backgroundDark = Color(0xFF000000) // Black background
+val backgroundDark = Color(0xFF0A0C0D) // Black background
 val onBackgroundDark = Color(0xFFFFFFFF) // White text/icons on background
 val surfaceDark = Color(0xFF121212) // Very dark gray surface
 val onSurfaceDark = Color(0xFFFFFFFF) // White text/icons on surface
