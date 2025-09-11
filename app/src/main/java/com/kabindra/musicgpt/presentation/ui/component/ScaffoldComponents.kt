@@ -95,7 +95,7 @@ fun TopAppBarWithIconAndNameComponent(
             modifier = Modifier.fillMaxWidth(),
             text = LocalResources.current.getString(R.string.app_name),
             type = TextType.Title,
-            size = TextSize.Large,
+            size = TextSize.Medium,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Start
         )

@@ -21,7 +21,7 @@ data class MusicDTO(
     val id: Int? = 0,
     val title: String? = "",
     val description: String = "",
-    val image: String? = "",
+    val image: Int? = 0,
     val actionType: String? = "",
 )
 

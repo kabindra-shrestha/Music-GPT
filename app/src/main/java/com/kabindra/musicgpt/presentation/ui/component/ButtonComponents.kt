@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.kabindra.musicgpt.R
 import com.kabindra.musicgpt.presentation.ui.theme.AppTheme
 
 @Composable
@@ -121,6 +122,39 @@ fun ButtonIcon(
                 .aspectRatio(1f / 1f),
             image = iconVector,
             contentDescription = "Icon Button"
+        )
+    }
+}
+
+@Composable
+fun ButtonIconAndTextRes(
+    modifier: Modifier = Modifier,
+    iconRes: Int = R.drawable.generate_ai_icon,
+    iconContentDescription: String = "",
+    text: String = "",
+    enabled: Boolean = true,
+    isOutlined: Boolean = false,
+    buttonColors: ButtonColors = ButtonDefaults.buttonColors(),
+    onClick: () -> Unit
+) {
+    ButtonComponent(
+        modifier = modifier,
+        enabled = enabled,
+        isOutlined = isOutlined,
+        buttonColors = buttonColors,
+        onClick = { onClick() }
+    ) {
+        ImageHandlerRes(
+            modifier = Modifier
+                .size(20.dp)
+                .aspectRatio(1f / 1f),
+            image = iconRes,
+            contentDescription = iconContentDescription
+        )
+        Spacer(modifier = Modifier.width(2.dp))
+        TextButtonAction(
+            modifier = Modifier.padding(start = AppTheme.dimens.paddingSmall),
+            text = text
         )
     }
 }

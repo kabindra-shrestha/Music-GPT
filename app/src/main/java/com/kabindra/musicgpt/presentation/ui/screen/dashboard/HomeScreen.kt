@@ -1,6 +1,8 @@
 package com.kabindra.musicgpt.presentation.ui.screen.dashboard
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -15,7 +17,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kabindra.musicgpt.R
+import com.kabindra.musicgpt.presentation.ui.component.BaseLazy
+import com.kabindra.musicgpt.presentation.ui.component.ButtonIconAndTextRes
+import com.kabindra.musicgpt.presentation.ui.component.LazyListType
+import com.kabindra.musicgpt.presentation.ui.component.LazyScrollDirection
+import com.kabindra.musicgpt.presentation.ui.component.LoadingIndicator
+import com.kabindra.musicgpt.presentation.ui.component.ShowEmpty
 import com.kabindra.musicgpt.presentation.ui.component.TopAppBarWithIconAndNameComponent
+import com.kabindra.musicgpt.presentation.ui.items.ItemHomeMusic
 import com.kabindra.musicgpt.presentation.viewmodel.remote.home.HomeEvent
 import com.kabindra.musicgpt.presentation.viewmodel.remote.home.HomeViewModel
 import com.kabindra.musicgpt.utils.Connectivity
@@ -60,11 +70,53 @@ fun HomeScreen(
             .fillMaxSize()
             .padding(innerPadding)
     ) {
-        TopAppBarWithIconAndNameComponent(
+        if (homeState.isLoading) {
+            LoadingIndicator(
+                modifier = Modifier.align(Alignment.Center),
+                isCircular = true
+            )
+        }
+
+        Column(
             modifier = Modifier
-                .height(54.dp)
-                .align(Alignment.TopStart)
-        )
+                .fillMaxSize()
+        ) {
+            TopAppBarWithIconAndNameComponent(
+                modifier = Modifier
+                    .height(54.dp)
+            )
+
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                if (!homeState.homeData?.music.isNullOrEmpty()) {
+                    BaseLazy(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(0.dp),
+                        arrangement = Arrangement.spacedBy(0.dp),
+                        items = homeState.homeData?.music!!,
+                        listType = LazyListType.LIST,
+                        scrollDirection = LazyScrollDirection.VERTICAL,
+                        itemContent = { index, item ->
+                            ItemHomeMusic(item) { }
+                        },
+                        onLoadMore = { },
+                        onScrollStateChanged = { },
+                    )
+                }
+
+                if (homeState.homeData?.music?.isEmpty() ?: false) {
+                    ShowEmpty()
+                }
+
+                ButtonIconAndTextRes(
+                    iconRes = R.drawable.generate_ai_icon,
+                    text = "Create"
+                ) { }
+            }
+        }
     }
 
 }

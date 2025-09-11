@@ -7,7 +7,6 @@ data class HomeState(
     val isLoading: Boolean = false,
     val isSuccess: Boolean = false,
     val isError: Boolean = false,
-    val isEmpty: Boolean = false,
     val successType: ResponseType = ResponseType.None,
     val successMessage: String = "",
     val errorType: ResponseType = ResponseType.None,
