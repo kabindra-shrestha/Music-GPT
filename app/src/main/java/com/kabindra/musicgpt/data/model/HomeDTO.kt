@@ -13,14 +13,14 @@ data class HomeDTO(
 
 @Serializable
 data class HomeDataDTO(
-    val music: List<MusicDTO> = listOf()
+    val music: List<MusicDTO>? = listOf()
 )
 
 @Serializable
 data class MusicDTO(
     val id: Int? = 0,
     val title: String? = "",
-    val description: String = "",
+    val description: String? = "",
     val image: Int? = 0,
     val actionType: String? = "",
 )
@@ -38,7 +38,7 @@ fun HomeDTO.toDomain(): Home {
 
 fun HomeDataDTO.toDomain(): HomeData {
     return HomeData(
-        music = music.map { it.toDomain() },
+        music = music?.map { it.toDomain() },
     )
 }
 

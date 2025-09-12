@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -86,10 +87,10 @@ fun HomeScreen(
                     .height(54.dp)
             )
 
-
             Box(
                 modifier = Modifier
                     .fillMaxSize()
+                    .weight(1f)
             ) {
                 if (!homeState.homeData?.music.isNullOrEmpty()) {
                     BaseLazy(
@@ -110,12 +111,16 @@ fun HomeScreen(
                 if (homeState.homeData?.music?.isEmpty() ?: false) {
                     ShowEmpty()
                 }
-
-                ButtonIconAndTextRes(
-                    iconRes = R.drawable.generate_ai_icon,
-                    text = "Create"
-                ) { }
             }
+
+            ButtonIconAndTextRes(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally),
+                iconRes = R.drawable.stars_01_1,
+                text = "Create"
+            ) { }
+
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 

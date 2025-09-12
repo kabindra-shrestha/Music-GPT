@@ -1,9 +1,7 @@
 package com.kabindra.musicgpt.presentation.ui.items
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,28 +11,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.kabindra.musicgpt.R
 import com.kabindra.musicgpt.domain.model.Music
 import com.kabindra.musicgpt.presentation.ui.component.CardBorderInside
 import com.kabindra.musicgpt.presentation.ui.component.ImageHandlerRes
 import com.kabindra.musicgpt.presentation.ui.component.TextComponent
+import com.kabindra.musicgpt.presentation.ui.component.TextSize
+import com.kabindra.musicgpt.presentation.ui.component.TextType
+import com.kabindra.musicgpt.presentation.ui.theme.homeLabel
+import com.kabindra.musicgpt.presentation.ui.theme.homeTitle
+import com.kabindra.musicgpt.utils.enums.ActionType
+import com.kabindra.musicgpt.utils.enums.getActionType
 
 @Composable
 fun ItemHomeMusic(
@@ -53,33 +44,69 @@ fun ItemHomeMusic(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(45.dp),
+                .height(64.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
             ImageHandlerRes(
-                modifier = Modifier.padding(start = 4.dp, end = 2.dp),
+                modifier = Modifier
+                    .size(64.dp),
                 image = content.image!!,
                 contentDescription = ""
             )
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            TextComponent(
-                text = content.title!!
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .weight(1f)
+            ) {
+
+                TextComponent(
+                    text = content.title!!,
+                    type = TextType.Title,
+                    size = TextSize.Medium,
+                    fontWeight = FontWeight.Bold,
+                    color = homeTitle
+                )
+
+                TextComponent(
+                    text = content.description!!,
+                    type = TextType.Body,
+                    size = TextSize.Medium,
+                    color = homeLabel
+                )
+
+            }
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            TextComponent(
-                text = content.description
+            val actionType = getActionType<ActionType>(content.actionType!!)
+
+
+            ImageHandlerRes(
+                modifier = Modifier
+                    .size(
+                        when (actionType) {
+                            ActionType.Option -> {
+                                24.dp
+                            }
+
+                            ActionType.V1 -> {
+                                40.dp
+                            }
+                        }
+                    ),
+                image = actionType.icon,
+                contentDescription = ""
             )
         }
     }
 }
 
-/*
-@Composable
+/*@Composable
 fun ItemHomePlayControl(){
     Card(
         modifier = Modifier
@@ -158,7 +185,6 @@ fun ItemHomePlayControl(){
                                 )
                             }
                         }
-                        */
 /*Box(
                             modifier = Modifier
                                 .height(35.dp),
@@ -170,8 +196,7 @@ fun ItemHomePlayControl(){
                                 fontWeight = FontWeight.W400,
                                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                             )
-                        }*//*
-
+                        }*/
                     }
                     Box(
                         modifier = Modifier

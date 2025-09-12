@@ -10,14 +10,14 @@ data class Home(
 
 @Serializable
 data class HomeData(
-    val music: List<Music> = listOf()
+    val music: List<Music>? = listOf()
 )
 
 @Serializable
 data class Music(
     val id: Int? = 0,
     val title: String? = "",
-    val description: String = "",
+    val description: String? = "",
     val image: Int? = 0,
     val actionType: String? = "",
 )
