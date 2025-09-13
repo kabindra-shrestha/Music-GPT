@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
@@ -24,12 +26,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kabindra.musicgpt.R
 import com.kabindra.musicgpt.domain.model.Music
 import com.kabindra.musicgpt.presentation.ui.component.BaseLazy
 import com.kabindra.musicgpt.presentation.ui.component.ButtonIconAndTextRes
+import com.kabindra.musicgpt.presentation.ui.component.CreateSongInputField
 import com.kabindra.musicgpt.presentation.ui.component.LazyListType
 import com.kabindra.musicgpt.presentation.ui.component.LazyScrollDirection
 import com.kabindra.musicgpt.presentation.ui.component.LoadingIndicator
@@ -38,6 +44,8 @@ import com.kabindra.musicgpt.presentation.ui.component.TopAppBarWithIconAndNameC
 import com.kabindra.musicgpt.presentation.ui.items.ItemHomeMusic
 import com.kabindra.musicgpt.presentation.ui.items.ItemHomePlayControl
 import com.kabindra.musicgpt.presentation.ui.theme.buttonBackgroundColor
+import com.kabindra.musicgpt.presentation.ui.theme.textFieldGradientEnd
+import com.kabindra.musicgpt.presentation.ui.theme.textFieldGradientStart
 import com.kabindra.musicgpt.presentation.viewmodel.remote.home.HomeEvent
 import com.kabindra.musicgpt.presentation.viewmodel.remote.home.HomeViewModel
 import com.kabindra.musicgpt.utils.Connectivity
@@ -48,11 +56,19 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = koinViewModel(),
     innerPadding: PaddingValues
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
 
     val connectivity = remember { Connectivity() }
     val isConnected by connectivity.isConnectedState.collectAsState()
     val homeState by homeViewModel.homeState.collectAsStateWithLifecycle()
     var musicSelected by remember { mutableStateOf<Music?>(null) }
+
+    var showCreateSong by remember { mutableStateOf(false) }
+
+    var createSongSelectedField by remember { mutableStateOf("") }
+    var isCreateSongValid by remember { mutableStateOf(false) }
+    var createSongError by remember { mutableStateOf("") }
 
     // Use DisposableEffect to reset states when the composable is disposed
     DisposableEffect(Unit) {
@@ -83,14 +99,8 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(innerPadding)
+            .imePadding()
     ) {
-        if (homeState.isLoading) {
-            LoadingIndicator(
-                modifier = Modifier.align(Alignment.Center),
-                isCircular = true
-            )
-        }
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -100,14 +110,21 @@ fun HomeScreen(
                     .height(54.dp)
             )
 
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
+            val listModifier = if (showCreateSong) {
+                Modifier
                     .weight(1f)
+                    .imePadding()
+            } else {
+                Modifier.weight(1f)
+            }
+
+            Box(
+                modifier = listModifier
             ) {
                 if (!homeState.homeData?.music.isNullOrEmpty()) {
                     BaseLazy(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize(),
                         contentPadding = PaddingValues(0.dp),
                         arrangement = Arrangement.spacedBy(0.dp),
                         items = homeState.homeData?.music!!,
@@ -116,6 +133,8 @@ fun HomeScreen(
                         itemContent = { index, item ->
                             ItemHomeMusic(item, musicSelected) {
                                 musicSelected = item
+
+                                showCreateSong = false
                             }
                         },
                         onLoadMore = { },
@@ -128,14 +147,63 @@ fun HomeScreen(
                 }
             }
 
-            ButtonIconAndTextRes(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally),
-                iconRes = R.drawable.stars_01_1,
-                text = "Create",
-                buttonColors = ButtonDefaults.buttonColors(buttonBackgroundColor())
-            ) {
-                musicSelected = null
+            if (!showCreateSong) {
+                ButtonIconAndTextRes(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally),
+                    iconRes = R.drawable.stars_01_1,
+                    text = "Create",
+                    buttonColors = ButtonDefaults.buttonColors(buttonBackgroundColor())
+                ) {
+                    showCreateSong = true
+                    musicSelected = null
+                }
+            }
+
+            if (showCreateSong) {
+                CreateSongInputField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 4.dp),
+                    value = createSongSelectedField,
+                    onValueChange = {
+                        createSongSelectedField = it
+                        if (createSongSelectedField.isBlank()) {
+                            isCreateSongValid = false
+                            createSongError = "Project name must not be empty"
+                        } else {
+                            isCreateSongValid = true
+                            createSongError = ""
+                        }
+                    },
+                    label = "Create Song",
+                    isError = isCreateSongValid,
+                    errorText = createSongError,
+                    imeAction = ImeAction.Done,
+                    leadingIcon = R.drawable.plus_25,
+                    trialingIcon = R.drawable.send,
+                    autoFocus = true,
+                    gradientColors = listOf(textFieldGradientStart, textFieldGradientEnd),
+                    borderWidth = 1.dp,
+                    cornerRadius = 50.dp,
+                    onClickLeadingIcon = {},
+                    onClickTrailingIcon = {
+                        if (createSongSelectedField.isBlank()) {
+                            isCreateSongValid = false
+                            createSongError = "Prompt must not be empty"
+                        } else {
+                            keyboardController?.hide()
+                            focusManager.clearFocus()
+
+                            isCreateSongValid = true
+                            createSongError = ""
+
+                            showCreateSong = false
+
+                            // onCreateSong(createSongSelectedField)
+                        }
+                    }
+                )
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -157,6 +225,13 @@ fun HomeScreen(
                     }
                 }
             }
+        }
+
+        if (homeState.isLoading) {
+            LoadingIndicator(
+                modifier = Modifier.align(Alignment.Center),
+                isCircular = true
+            )
         }
     }
 

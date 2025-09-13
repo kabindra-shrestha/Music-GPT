@@ -107,6 +107,8 @@ val tabSelected = Color(0xFF0D9488)
 val tabUnselected = Color(0xFFC5C5C5)
 val bottomNavigationSelected = Color(0xFFEEEEEE)
 val bottomNavigationUnselected = Color(0xFF5D6165)
+val textFieldGradientStart = Color(0xFFFF8504)
+val textFieldGradientEnd = Color(0xFF990287)
 
 val titleLight = Color(0xFF1A1A1A)
 val labelLight = Color(0xFF898C92)

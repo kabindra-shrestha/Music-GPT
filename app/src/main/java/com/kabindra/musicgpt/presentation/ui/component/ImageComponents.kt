@@ -85,7 +85,9 @@ fun ImageHandlerRes(
     contentDescription: String = "",
     tint: Color? = null,
     circular: Boolean = false,
-    backgroundColor: Color = transparent
+    backgroundColor: Color = transparent,
+    isClickable: Boolean = false,
+    onClick: () -> Unit = {}
 ) {
     Image(
         modifier = modifier
@@ -94,6 +96,12 @@ fun ImageHandlerRes(
                     modifier
                         .clip(CircleShape)
                         .background(backgroundColor)
+                else
+                    modifier
+            )
+            .then(
+                if (isClickable)
+                    modifier.clickable { onClick() }
                 else
                     modifier
             ),
