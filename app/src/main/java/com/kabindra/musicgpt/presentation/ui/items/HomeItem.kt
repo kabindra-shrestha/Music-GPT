@@ -1,7 +1,8 @@
 package com.kabindra.musicgpt.presentation.ui.items
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,40 +12,149 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.kabindra.musicgpt.R
 import com.kabindra.musicgpt.domain.model.Music
 import com.kabindra.musicgpt.presentation.ui.component.CardBorderInside
 import com.kabindra.musicgpt.presentation.ui.component.ImageHandlerRes
 import com.kabindra.musicgpt.presentation.ui.component.TextComponent
 import com.kabindra.musicgpt.presentation.ui.component.TextSize
 import com.kabindra.musicgpt.presentation.ui.component.TextType
-import com.kabindra.musicgpt.presentation.ui.theme.homeLabel
-import com.kabindra.musicgpt.presentation.ui.theme.homeTitle
+import com.kabindra.musicgpt.presentation.ui.theme.labelColor
+import com.kabindra.musicgpt.presentation.ui.theme.overlay
+import com.kabindra.musicgpt.presentation.ui.theme.playerBackgroundColor
+import com.kabindra.musicgpt.presentation.ui.theme.titleColor
 import com.kabindra.musicgpt.utils.enums.ActionType
 import com.kabindra.musicgpt.utils.enums.getActionType
 
 @Composable
 fun ItemHomeMusic(
     content: Music,
+    musicSelected: Music? = null,
     onClick: (Music) -> Unit
 ) {
     CardBorderInside(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 4.dp, vertical = 4.dp)
-            .clickable {
-                onClick(content)
-            },
+            .padding(horizontal = 8.dp, vertical = 8.dp),
+        containerColor = MaterialTheme.colorScheme.background,
         sides = listOf(),
+        onClick = {
+            onClick(content)
+        }
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(64.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(64.dp)
+            ) {
+                ImageHandlerRes(
+                    modifier = Modifier
+                        .size(64.dp),
+                    image = content.image!!,
+                    contentDescription = ""
+                )
+                if (musicSelected != null && musicSelected.id == content.id) {
+                    Box(
+                        modifier = Modifier
+                            .size(64.dp)
+                            .clip(RoundedCornerShape(18.dp))
+                            .background(
+                                overlay.copy(alpha = 0.2f),
+                                RoundedCornerShape(18.dp)
+                            )
+                    )
+                    ImageHandlerRes(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .align(Alignment.Center),
+                        image = R.drawable.frame,
+                        contentDescription = ""
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .weight(1f)
+            ) {
+
+                TextComponent(
+                    text = content.title!!,
+                    type = TextType.Title,
+                    size = TextSize.Medium,
+                    fontWeight = FontWeight.Bold,
+                    color = titleColor()
+                )
+
+                TextComponent(
+                    text = content.description!!,
+                    type = TextType.Body,
+                    size = TextSize.Medium,
+                    color = labelColor()
+                )
+
+            }
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            val actionType = getActionType<ActionType>(content.actionType!!)
+
+            ImageHandlerRes(
+                modifier = Modifier
+                    .size(
+                        when (actionType) {
+                            ActionType.Option -> {
+                                24.dp
+                            }
+
+                            ActionType.V1 -> {
+                                40.dp
+                            }
+                        }
+                    ),
+                image = actionType.icon,
+                contentDescription = ""
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+        }
+    }
+}
+
+@Composable
+fun ItemHomePlayControl(content: Music) {
+    CardBorderInside(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 8.dp),
+        containerColor = playerBackgroundColor(),
+        sides = listOf(),
+        onClick = {
+        }
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(64.dp)
+                .padding(horizontal = 4.dp, vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
@@ -69,39 +179,41 @@ fun ItemHomeMusic(
                     type = TextType.Title,
                     size = TextSize.Medium,
                     fontWeight = FontWeight.Bold,
-                    color = homeTitle
-                )
-
-                TextComponent(
-                    text = content.description!!,
-                    type = TextType.Body,
-                    size = TextSize.Medium,
-                    color = homeLabel
+                    color = titleColor()
                 )
 
             }
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            val actionType = getActionType<ActionType>(content.actionType!!)
+            Row {
+                ImageHandlerRes(
+                    modifier = Modifier
+                        .size(24.dp),
+                    image = R.drawable.frame_1261154103,
+                    contentDescription = ""
+                )
 
+                Spacer(modifier = Modifier.width(8.dp))
 
-            ImageHandlerRes(
-                modifier = Modifier
-                    .size(
-                        when (actionType) {
-                            ActionType.Option -> {
-                                24.dp
-                            }
+                ImageHandlerRes(
+                    modifier = Modifier
+                        .size(24.dp),
+                    image = R.drawable.mynaui_pause_solid,
+                    contentDescription = ""
+                )
 
-                            ActionType.V1 -> {
-                                40.dp
-                            }
-                        }
-                    ),
-                image = actionType.icon,
-                contentDescription = ""
-            )
+                Spacer(modifier = Modifier.width(8.dp))
+
+                ImageHandlerRes(
+                    modifier = Modifier
+                        .size(24.dp),
+                    image = R.drawable.frame_1261154104,
+                    contentDescription = ""
+                )
+            }
+
+            Spacer(modifier = Modifier.width(8.dp))
         }
     }
 }

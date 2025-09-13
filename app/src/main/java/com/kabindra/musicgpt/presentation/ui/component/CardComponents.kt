@@ -35,15 +35,17 @@ fun CardBorderInside(
         BorderSide.RIGHT,
         BorderSide.BOTTOM
     ),
+    onClick: () -> Unit,
     content: @Composable () -> Unit
 ) {
     val borderWidthPx = with(LocalDensity.current) { borderWidth.toPx() }
     val halfStroke = borderWidthPx / 2
 
     OutlinedCard(
-        modifier = modifier.clip(RoundedCornerShape(8.dp)),
-        shape = RoundedCornerShape(8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        onClick = { onClick() },
+        modifier = modifier.clip(RoundedCornerShape(18.dp)),
+        shape = RoundedCornerShape(18.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
         border = CardDefaults.outlinedCardBorder(false)
     ) {
         Box(

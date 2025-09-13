@@ -144,23 +144,3 @@ fun TextError(
         overflow = overflow
     )
 }
-
-@Composable
-fun TextButtonAction(
-    modifier: Modifier = Modifier,
-    text: String,
-    style: TextStyle = MaterialTheme.typography.bodyMedium,
-    fontWeight: FontWeight = FontWeight.Normal,
-    color: Color? = null,
-    background: Color? = null
-) {
-    Text(
-        modifier = modifier,
-        text = text,
-        style = style.copy(
-            fontWeight = fontWeight,
-            color = color ?: style.color,
-            background = background ?: style.background
-        )
-    )
-}

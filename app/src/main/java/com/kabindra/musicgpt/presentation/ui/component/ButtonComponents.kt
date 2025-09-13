@@ -37,12 +37,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.kabindra.musicgpt.R
 import com.kabindra.musicgpt.presentation.ui.theme.AppTheme
+import com.kabindra.musicgpt.presentation.ui.theme.buttonTextColor
 
 @Composable
 fun ButtonComponent(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     isOutlined: Boolean = false,
+    isRounded: Boolean = false,
     buttonColors: ButtonColors = ButtonDefaults.buttonColors(),
     onClick: () -> Unit,
     content: @Composable () -> Unit
@@ -61,7 +63,11 @@ fun ButtonComponent(
             // .then(modifier),
             enabled = enabled,
             colors = buttonColors,
-            shape = buttonShape,
+            shape = if (isRounded) {
+                buttonShape
+            } else {
+                ButtonDefaults.outlinedShape
+            },
             onClick = { onClick() }
         ) {
             content()
@@ -73,7 +79,11 @@ fun ButtonComponent(
             // .then(modifier),
             enabled = enabled,
             colors = buttonColors,
-            shape = buttonShape,
+            shape = if (isRounded) {
+                buttonShape
+            } else {
+                ButtonDefaults.shape
+            },
             onClick = { onClick() }
         ) {
             content()
@@ -153,9 +163,10 @@ fun ButtonIconAndTextRes(
             contentDescription = iconContentDescription
         )
         Spacer(modifier = Modifier.width(2.dp))
-        TextButtonAction(
+        TextComponent(
             modifier = Modifier.padding(start = AppTheme.dimens.paddingSmall),
-            text = text
+            text = text,
+            color = buttonTextColor()
         )
     }
 }
@@ -186,7 +197,7 @@ fun ButtonIconAndText(
             contentDescription = iconContentDescription
         )
         Spacer(modifier = Modifier.width(2.dp))
-        TextButtonAction(
+        TextComponent(
             modifier = Modifier.padding(start = AppTheme.dimens.paddingSmall),
             text = text
         )
@@ -257,7 +268,7 @@ fun ButtonTextAndIcon(
             contentDescription = iconContentDescription
         )
         Spacer(modifier = Modifier.width(2.dp))
-        TextButtonAction(
+        TextComponent(
             modifier = Modifier.padding(start = AppTheme.dimens.paddingSmall),
             text = text
         )

@@ -1,5 +1,7 @@
 package com.kabindra.musicgpt.presentation.ui.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 val primaryLight = Color(0xFF0D9488)
@@ -106,5 +108,36 @@ val tabUnselected = Color(0xFFC5C5C5)
 val bottomNavigationSelected = Color(0xFFEEEEEE)
 val bottomNavigationUnselected = Color(0xFF5D6165)
 
-val homeTitle = Color(0xFFE4E6E8)
-val homeLabel = Color(0xFF898C92)
+val titleLight = Color(0xFF1A1A1A)
+val labelLight = Color(0xFF898C92)
+val buttonBackgroundLight = Color(0xFFEEEEEE)
+val buttonTextLight = Color(0xFF232526)
+val dividerLight = Color(0xFFEEEEEE)
+val playerBackgroundLight = Color(0xFFEEEEEE)
+
+val titleDark = Color(0xFFE4E6E8)
+val labelDark = Color(0xFF898C92)
+val buttonBackgroundDark = Color(0xFF232526)
+val buttonTextDark = Color(0xFFEEEEEE)
+val dividerDark = Color(0xFF232526)
+val playerBackgroundDark = Color(0xFF232526)
+
+@Composable
+fun titleColor() = if (isSystemInDarkTheme()) titleDark else titleLight
+
+@Composable
+fun labelColor() = if (isSystemInDarkTheme()) labelDark else labelLight
+
+@Composable
+fun buttonBackgroundColor() =
+    if (isSystemInDarkTheme()) buttonBackgroundDark else buttonBackgroundLight
+
+@Composable
+fun buttonTextColor() = if (isSystemInDarkTheme()) buttonTextDark else buttonTextLight
+
+@Composable
+fun dividerColor() = if (isSystemInDarkTheme()) dividerDark else dividerLight
+
+@Composable
+fun playerBackgroundColor() =
+    if (isSystemInDarkTheme()) playerBackgroundDark else playerBackgroundLight

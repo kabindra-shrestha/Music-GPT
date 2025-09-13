@@ -57,6 +57,7 @@ fun LoadingDialog(
             DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
         ) {
             CardBorderInside(
+                onClick = { },
                 modifier = Modifier
                     .size(200.dp),
             ) {

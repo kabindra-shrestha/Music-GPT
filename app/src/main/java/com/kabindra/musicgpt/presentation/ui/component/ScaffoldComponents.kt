@@ -31,6 +31,7 @@ import com.kabindra.musicgpt.R
 import com.kabindra.musicgpt.presentation.ui.screen.navigation.Route
 import com.kabindra.musicgpt.presentation.ui.theme.bottomNavigationSelected
 import com.kabindra.musicgpt.presentation.ui.theme.bottomNavigationUnselected
+import com.kabindra.musicgpt.presentation.ui.theme.dividerColor
 import com.kabindra.musicgpt.presentation.ui.theme.transparent
 import com.kabindra.musicgpt.utils.enums.MenuType
 
@@ -132,7 +133,9 @@ fun BottomNavigationBarComponent(
     onClick: (selectedSlug: String) -> Unit
 ) {
     Column {
-        HorizontalDivider()
+        HorizontalDivider(
+            color = dividerColor()
+        )
         NavigationBar(
             containerColor = MaterialTheme.colorScheme.background
         ) {
