@@ -80,7 +80,8 @@ fun TopAppBarComponent(
 
 @Composable
 fun TopAppBarWithIconAndNameComponent(
-    modifier: Modifier = Modifier.height(54.dp)
+    modifier: Modifier = Modifier.height(54.dp),
+    name: String = LocalResources.current.getString(R.string.app_name)
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -94,7 +95,7 @@ fun TopAppBarWithIconAndNameComponent(
         )
         TextComponent(
             modifier = Modifier.fillMaxWidth(),
-            text = LocalResources.current.getString(R.string.app_name),
+            text = name,
             type = TextType.Title,
             size = TextSize.Medium,
             fontWeight = FontWeight.Medium,

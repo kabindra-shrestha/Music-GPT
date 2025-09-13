@@ -1,5 +1,6 @@
 package com.kabindra.musicgpt.presentation.ui.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -43,10 +44,10 @@ fun CardBorderInside(
 
     OutlinedCard(
         onClick = { onClick() },
-        modifier = modifier.clip(RoundedCornerShape(18.dp)),
-        shape = RoundedCornerShape(18.dp),
+        modifier = modifier.clip(RoundedCornerShape(16.dp)),
+        shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-        border = CardDefaults.outlinedCardBorder(false)
+        border = BorderStroke(0.dp, transparent)
     ) {
         Box(
             modifier = Modifier

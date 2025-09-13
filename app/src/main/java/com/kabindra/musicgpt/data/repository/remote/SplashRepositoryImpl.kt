@@ -18,7 +18,7 @@ class SplashRepositoryImpl(
             emit(Result.Loading)
             try {
                 // Imitate Api hit
-                delay(2000)
+                delay(1000)
 
                 emit(Result.Success(SplashCheckDTO(response = true).toDomain()))
             } catch (e: Exception) {

@@ -15,6 +15,10 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,6 +28,7 @@ import com.kabindra.musicgpt.R
 import com.kabindra.musicgpt.domain.model.Music
 import com.kabindra.musicgpt.presentation.ui.component.CardBorderInside
 import com.kabindra.musicgpt.presentation.ui.component.ImageHandlerRes
+import com.kabindra.musicgpt.presentation.ui.component.SliderComponent
 import com.kabindra.musicgpt.presentation.ui.component.TextComponent
 import com.kabindra.musicgpt.presentation.ui.component.TextSize
 import com.kabindra.musicgpt.presentation.ui.component.TextType
@@ -44,6 +49,8 @@ fun ItemHomeMusic(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp, vertical = 8.dp),
+        borderColor = MaterialTheme.colorScheme.background,
+        borderWidth = 0.dp,
         containerColor = MaterialTheme.colorScheme.background,
         sides = listOf(),
         onClick = {
@@ -141,6 +148,9 @@ fun ItemHomeMusic(
 
 @Composable
 fun ItemHomePlayControl(content: Music) {
+    var sliderPosition by remember { mutableFloatStateOf(50f) }
+    val range = 0f..100f
+
     CardBorderInside(
         modifier = Modifier
             .fillMaxWidth()
@@ -150,278 +160,85 @@ fun ItemHomePlayControl(content: Music) {
         onClick = {
         }
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(64.dp)
-                .padding(horizontal = 4.dp, vertical = 4.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
-        ) {
-            ImageHandlerRes(
-                modifier = Modifier
-                    .size(64.dp),
-                image = content.image!!,
-                contentDescription = ""
-            )
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Column(
+        Column {
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight()
-                    .weight(1f)
+                    .height(64.dp)
+                    .padding(horizontal = 2.dp, vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
             ) {
-
-                TextComponent(
-                    text = content.title!!,
-                    type = TextType.Title,
-                    size = TextSize.Medium,
-                    fontWeight = FontWeight.Bold,
-                    color = titleColor()
-                )
-
-            }
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Row {
                 ImageHandlerRes(
                     modifier = Modifier
-                        .size(24.dp),
-                    image = R.drawable.frame_1261154103,
+                        .size(64.dp),
+                    image = content.image!!,
                     contentDescription = ""
                 )
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                ImageHandlerRes(
+                Column(
                     modifier = Modifier
-                        .size(24.dp),
-                    image = R.drawable.mynaui_pause_solid,
-                    contentDescription = ""
-                )
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .weight(1f)
+                ) {
+
+                    TextComponent(
+                        text = content.title!!,
+                        type = TextType.Title,
+                        size = TextSize.Medium,
+                        fontWeight = FontWeight.Bold,
+                        color = titleColor()
+                    )
+
+                }
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                ImageHandlerRes(
-                    modifier = Modifier
-                        .size(24.dp),
-                    image = R.drawable.frame_1261154104,
-                    contentDescription = ""
-                )
-            }
+                Row {
+                    ImageHandlerRes(
+                        modifier = Modifier
+                            .size(22.dp),
+                        image = R.drawable.frame_1261154103,
+                        contentDescription = ""
+                    )
 
-            Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(12.dp))
+
+                    ImageHandlerRes(
+                        modifier = Modifier
+                            .size(22.dp),
+                        image = R.drawable.mynaui_pause_solid,
+                        contentDescription = ""
+                    )
+
+                    Spacer(modifier = Modifier.width(12.dp))
+
+                    ImageHandlerRes(
+                        modifier = Modifier
+                            .size(22.dp),
+                        image = R.drawable.frame_1261154104,
+                        contentDescription = ""
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+            }
+            SliderComponent(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(24.dp)
+                    .padding(horizontal = 4.dp),
+                sliderValue = sliderPosition,
+                sliderRange = range,
+                onValueChange = { value ->
+                    sliderPosition = value
+                },
+                onValueChangeFinished = {
+                },
+            )
         }
     }
 }
-
-/*@Composable
-fun ItemHomePlayControl(){
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(120.dp)
-            .padding(horizontal = 8.dp, vertical = 10.dp),
-        shape = RoundedCornerShape(16.dp),
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-                .padding(10.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.Start
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(50.dp)
-                            .background(
-                                color = MaterialTheme.colorScheme.primary,
-                                shape = RoundedCornerShape(10.dp)
-                            )
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.audio),
-                            contentDescription = "Audio Icon",
-                            modifier = Modifier
-                                .size(20.dp)
-                                .align(Alignment.Center),
-                            tint = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-                    Row(
-                        modifier = Modifier
-                            .wrapContentHeight()
-                            .weight(1f)
-                            .padding(horizontal = 10.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .weight(1f)
-                                .height(40.dp),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.Start
-                        ) {
-                            Text(
-                                text = audioTrack.title,
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.W400,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                            if (audioTrack.artist.isNotEmpty()) {
-                                Text(
-                                    text = audioTrack.artist,
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.W400,
-                                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                                )
-                            }
-                        }
-/*Box(
-                            modifier = Modifier
-                                .height(35.dp),
-                            contentAlignment = Alignment.BottomCenter
-                        ) {
-                            Text(
-                                text = (audioTrack.duration / 1000).formatToTime(),
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.W400,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            )
-                        }*/
-                    }
-                    Box(
-                        modifier = Modifier
-                            .size(36.dp)
-                            .clip(CircleShape),
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.previous),
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clickable { onPrevious() },
-                            contentDescription = "Previous",
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Box(
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(RoundedCornerShape(10.dp)),
-                    ) {
-                        if (isPlaying) {
-                            VeelIcon(
-                                modifier = Modifier
-                                    .size(40.dp)
-                                    .clip(CircleShape)
-                                    .padding(4.dp),
-                                id = R.drawable.pause,
-                                desc = "Pause"
-                            ) {
-                                onPlay()
-                            }
-                        } else {
-                            VeelIcon(
-                                modifier = Modifier
-                                    .size(40.dp)
-                                    .clip(CircleShape)
-                                    .padding(4.dp),
-                                id = R.drawable.play,
-                                desc = "Play"
-                            ) {
-                                onPlay()
-                            }
-                        }
-                    }
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Box(
-                        modifier = Modifier
-                            .size(36.dp)
-                            .clip(CircleShape),
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.next),
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clickable { onNext() },
-                            contentDescription = "Next",
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .wrapContentWidth()
-                    ) {
-                        Text(
-                            modifier = Modifier.wrapContentWidth(),
-                            text = currentTime,
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    }
-
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                    ) {
-                        VeelSlider(
-                            sliderValue = sliderPosition,
-                            sliderRange = range,
-                            onValueChange = { value ->
-                                isUserDraggingSlider = true
-                                sliderPosition = value
-                                currentTime = sliderPosition.toLong().formatToTime()
-                                onSeekChange((value * 1000).toLong())
-                            },
-                            onValueChangeFinished = {
-                                isUserDraggingSlider = false
-                                val seekToMs = (sliderPosition * 1000).toLong()
-                                onSeekChangeFinished(seekToMs)
-                            },
-                        )
-                    }
-
-                    Box(
-                        modifier = Modifier
-                            .wrapContentWidth()
-                    ) {
-                        Text(
-                            modifier = Modifier.wrapContentWidth(),
-                            text = totalTime,
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    }
-                }
-            }
-        }
-    }
-}*/

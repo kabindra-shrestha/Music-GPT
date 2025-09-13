@@ -24,7 +24,7 @@ class HomeRepositoryImpl(
                 val response: List<MusicDTO> = apiDataSource.getHome()
 
                 // Imitate Api hit
-                delay(2000)
+                delay(1000)
 
                 val musics = response
 
