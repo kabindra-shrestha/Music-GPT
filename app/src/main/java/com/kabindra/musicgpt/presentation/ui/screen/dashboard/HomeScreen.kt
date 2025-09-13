@@ -49,6 +49,8 @@ import com.kabindra.musicgpt.presentation.ui.theme.textFieldGradientStart
 import com.kabindra.musicgpt.presentation.viewmodel.remote.home.HomeEvent
 import com.kabindra.musicgpt.presentation.viewmodel.remote.home.HomeViewModel
 import com.kabindra.musicgpt.utils.Connectivity
+import com.kabindra.musicgpt.utils.enums.CreateSongType
+import com.kabindra.musicgpt.utils.enums.CreationType
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -132,8 +134,11 @@ fun HomeScreen(
                         scrollDirection = LazyScrollDirection.VERTICAL,
                         itemContent = { index, item ->
                             ItemHomeMusic(item, musicSelected) {
-                                musicSelected = item
-
+                                musicSelected = if (CreationType.Generated.slug == item.creationType) {
+                                    item
+                                } else{
+                                    null
+                                }
                                 showCreateSong = false
                             }
                         },
@@ -168,6 +173,7 @@ fun HomeScreen(
                     value = createSongSelectedField,
                     onValueChange = {
                         createSongSelectedField = it
+                        println("createSongSelectedField $createSongSelectedField")
                         if (createSongSelectedField.isBlank()) {
                             isCreateSongValid = false
                             createSongError = "Project name must not be empty"
@@ -200,7 +206,13 @@ fun HomeScreen(
 
                             showCreateSong = false
 
-                            // onCreateSong(createSongSelectedField)
+                            if (CreateSongType.Queue.slug == createSongSelectedField) {
+                                homeViewModel.onEvent(HomeEvent.QueueSong)
+                            } else if (CreateSongType.Generate.slug == createSongSelectedField) {
+                                homeViewModel.onEvent(HomeEvent.GenerateSong)
+                            }
+
+                            createSongSelectedField = ""
                         }
                     }
                 )

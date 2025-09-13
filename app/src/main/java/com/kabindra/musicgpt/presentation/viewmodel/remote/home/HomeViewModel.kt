@@ -29,6 +29,14 @@ class HomeViewModel(
             is HomeEvent.CheckHome -> {
                 checkHome()
             }
+
+            is HomeEvent.QueueSong -> {
+                queueSong()
+            }
+
+            is HomeEvent.GenerateSong -> {
+                generateSong()
+            }
         }
     }
 
@@ -53,6 +61,100 @@ class HomeViewModel(
                                     successType = ResponseType.None,
                                     successMessage = "",
                                     homeData = result.data.response
+                                )
+                        }
+
+                        is Result.Error -> {
+                            _homeState.value =
+                                _homeState.value.copy(
+                                    isLoading = false,
+                                    isError = true,
+                                    errorType = ResponseType.None,
+                                    errorStatusCode = result.error.statusCode,
+                                    errorTitle = "",
+                                    errorMessage = result.error.message
+                                )
+                        }
+                    }
+                }
+        }
+    }
+
+    fun queueSong() {
+        viewModelScope.launch {
+            homeUseCase.executeQueueSong()
+                .collect { result ->
+                    when (result) {
+                        is Result.Initial -> Unit
+                        is Result.Loading -> {
+                            _homeState.value =
+                                _homeState.value.copy(
+                                    isLoading = true
+                                )
+                        }
+
+                        is Result.Success -> {
+                            val oldList = _homeState.value.homeData?.music.orEmpty()
+                            val newList = oldList.toMutableList().apply {
+                                add(0, result.data)
+                            }
+
+                            _homeState.value =
+                                _homeState.value.copy(
+                                    isLoading = false,
+                                    isSuccess = true,
+                                    successType = ResponseType.None,
+                                    successMessage = "",
+                                    homeData = _homeState.value.homeData?.copy(
+                                        music = newList
+                                    )
+                                )
+                        }
+
+                        is Result.Error -> {
+                            _homeState.value =
+                                _homeState.value.copy(
+                                    isLoading = false,
+                                    isError = true,
+                                    errorType = ResponseType.None,
+                                    errorStatusCode = result.error.statusCode,
+                                    errorTitle = "",
+                                    errorMessage = result.error.message
+                                )
+                        }
+                    }
+                }
+        }
+    }
+
+    fun generateSong() {
+        viewModelScope.launch {
+            homeUseCase.executeGenerateSong()
+                .collect { result ->
+                    when (result) {
+                        is Result.Initial -> Unit
+                        is Result.Loading -> {
+                            _homeState.value =
+                                _homeState.value.copy(
+                                    isLoading = true
+                                )
+                        }
+
+                        is Result.Success -> {
+                            val oldList = _homeState.value.homeData?.music.orEmpty()
+                            val newList = oldList.toMutableList().apply {
+                                add(0, result.data)
+                            }
+
+                            _homeState.value =
+                                _homeState.value.copy(
+                                    isLoading = false,
+                                    isSuccess = true,
+                                    successType = ResponseType.None,
+                                    successMessage = "",
+                                    homeData = _homeState.value.homeData?.copy(
+                                        music = newList
+                                    )
                                 )
                         }
 

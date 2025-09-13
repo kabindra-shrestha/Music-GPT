@@ -23,6 +23,8 @@ data class MusicDTO(
     val description: String? = "",
     val image: Int? = 0,
     val actionType: String? = "",
+    val isActive: Boolean? = false,
+    val creationType: String? = "",
 )
 
 // Mapper function
@@ -49,5 +51,7 @@ fun MusicDTO.toDomain(): Music {
         description = description,
         image = image,
         actionType = actionType,
+        isActive = isActive,
+        creationType = creationType
     )
 }

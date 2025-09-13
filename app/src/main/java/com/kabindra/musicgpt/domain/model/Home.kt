@@ -20,4 +20,6 @@ data class Music(
     val description: String? = "",
     val image: Int? = 0,
     val actionType: String? = "",
+    val isActive: Boolean? = false,
+    val creationType: String? = "",
 )

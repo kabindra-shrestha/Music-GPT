@@ -6,6 +6,7 @@ import com.kabindra.musicgpt.data.model.MusicDTO
 import com.kabindra.musicgpt.data.model.toDomain
 import com.kabindra.musicgpt.data.source.remote.ApiDataSource
 import com.kabindra.musicgpt.domain.model.Home
+import com.kabindra.musicgpt.domain.model.Music
 import com.kabindra.musicgpt.domain.repository.remote.HomeRepository
 import com.kabindra.musicgpt.utils.ktor.Result
 import com.kabindra.musicgpt.utils.ktor.ResultError
@@ -29,6 +30,36 @@ class HomeRepositoryImpl(
                 val musics = response
 
                 emit(Result.Success(HomeDTO(response = HomeDataDTO(music = musics)).toDomain()))
+            } catch (e: Exception) {
+                emit(Result.Error(ResultError.parseException(e)))
+            }
+        }
+
+    override suspend fun queueSong(): Flow<Result<Music>> =
+        flow {
+            emit(Result.Loading)
+            try {
+                val response: MusicDTO = apiDataSource.queueSong()
+
+                // Imitate Api hit
+                delay(1000)
+
+                emit(Result.Success(response.toDomain()))
+            } catch (e: Exception) {
+                emit(Result.Error(ResultError.parseException(e)))
+            }
+        }
+
+    override suspend fun generateSong(): Flow<Result<Music>> =
+        flow {
+            emit(Result.Loading)
+            try {
+                val response: MusicDTO = apiDataSource.generateSong()
+
+                // Imitate Api hit
+                delay(1000)
+
+                emit(Result.Success(response.toDomain()))
             } catch (e: Exception) {
                 emit(Result.Error(ResultError.parseException(e)))
             }
