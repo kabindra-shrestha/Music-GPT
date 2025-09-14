@@ -232,10 +232,10 @@ class HomeViewModel(
             }
 
             // After loop → mark as completed
+            delay(1000)
             onEvent(HomeEvent.UpdateProgressSong(id, -1)) // special completed state
         }
     }
-
 
     fun resetStates() {
         _homeState.value = HomeState()

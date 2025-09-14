@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -104,6 +105,7 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(innerPadding)
+            .consumeWindowInsets(innerPadding)
             .imePadding()
     ) {
         Column(
@@ -204,9 +206,19 @@ fun HomeScreen(
 
                             showCreateSong = false
 
-                            if (CreateSongType.Queue.slug == createSongSelectedField) {
+                            val selectedField = createSongSelectedField.trim()
+
+                            if (selectedField.equals(
+                                    CreateSongType.Queue.slug,
+                                    ignoreCase = true
+                                )
+                            ) {
                                 homeViewModel.onEvent(HomeEvent.QueueSong(homeState.homeData?.music!!.size))
-                            } else if (CreateSongType.Generate.slug == createSongSelectedField) {
+                            } else if (selectedField.equals(
+                                    CreateSongType.Generate.slug,
+                                    ignoreCase = true
+                                )
+                            ) {
                                 homeViewModel.onEvent(HomeEvent.GenerateSong(homeState.homeData?.music!!.size))
                             }
 
