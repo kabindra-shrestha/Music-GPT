@@ -227,7 +227,7 @@ class HomeViewModel(
                     lastCheckpoint = checkpoint
                 }
 
-                delay(25) // adjust speed
+                delay(100) // adjust speed
                 progress += 1
             }
 
