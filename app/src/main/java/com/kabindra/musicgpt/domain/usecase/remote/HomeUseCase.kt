@@ -10,10 +10,12 @@ class HomeUseCase(private val repository: HomeRepository) {
     suspend fun executeHomeData(): Flow<Result<Home>> {
         return repository.getHomeData()
     }
-    suspend fun executeQueueSong(): Flow<Result<Music>> {
-        return repository.queueSong()
+
+    suspend fun executeQueueSong(size: Int): Flow<Result<Music>> {
+        return repository.queueSong(size)
     }
-    suspend fun executeGenerateSong(): Flow<Result<Music>> {
-        return repository.generateSong()
+
+    suspend fun executeGenerateSong(size: Int): Flow<Result<Music>> {
+        return repository.generateSong(size)
     }
 }

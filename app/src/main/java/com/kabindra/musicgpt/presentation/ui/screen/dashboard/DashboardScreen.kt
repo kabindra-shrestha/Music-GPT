@@ -31,8 +31,12 @@ fun DashboardScreen(
     val isConnected by connectivity.isConnectedState.collectAsState()
 
     val backStackEntry by navController.currentBackStackEntryAsState()
-    var currentRoute = backStackEntry?.destination?.route?.let { mutableStateOf(it) }
-        ?: mutableStateOf(Route.HomeMainRoute::class.qualifiedName)
+    val currentRoute = remember(backStackEntry) {
+        mutableStateOf(
+            backStackEntry?.destination?.route
+                ?: Route.HomeMainRoute::class.qualifiedName.orEmpty()
+        )
+    }
 
     // Use DisposableEffect to reset states when the composable is disposed
     DisposableEffect(Unit) {
@@ -56,7 +60,7 @@ fun DashboardScreen(
     Scaffold(
         bottomBar = {
             BottomNavigationBarComponent(
-                selectedRoute = currentRoute.value!!,
+                selectedRoute = currentRoute.value,
                 onClick = { selectedSlug ->
                     if (getMenuType<MenuType>(selectedSlug).route != null) {
                         val navigationRoute: Route =

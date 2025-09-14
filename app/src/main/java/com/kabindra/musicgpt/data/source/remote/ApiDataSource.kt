@@ -11,12 +11,12 @@ class ApiDataSource() {
         return getMockMusics()
     }
 
-    suspend fun queueSong(): MusicDTO {
-        return queueMockSong()
+    suspend fun queueSong(size: Int): MusicDTO {
+        return queueMockSong(size)
     }
 
-    suspend fun generateSong(): MusicDTO {
-        return generateMockSong()
+    suspend fun generateSong(size: Int): MusicDTO {
+        return generateMockSong(size)
     }
 
 }
@@ -24,7 +24,7 @@ class ApiDataSource() {
 fun getMockMusics(): List<MusicDTO> {
     return listOf(
         MusicDTO(
-            3,
+            4,
             "Language Training",
             "Create a presentation that explains how large language models are used in the real world.",
             R.drawable.voice_pic1,
@@ -33,7 +33,7 @@ fun getMockMusics(): List<MusicDTO> {
             CreationType.Generated.slug
         ),
         MusicDTO(
-            4,
+            3,
             "Bam Bam",
             "Generate a script for a play about the power of forgiveness.",
             R.drawable.voice_pic2,
@@ -42,7 +42,7 @@ fun getMockMusics(): List<MusicDTO> {
             CreationType.Generated.slug
         ),
         MusicDTO(
-            5,
+            1,
             "Enemy",
             "Compose a poem about the meaning of life.",
             R.drawable.voice_pic3,
@@ -51,7 +51,7 @@ fun getMockMusics(): List<MusicDTO> {
             CreationType.Generated.slug
         ),
         MusicDTO(
-            6,
+            1,
             "Balenciaga",
             "Generate a poem about a lost love.",
             R.drawable.voice_pic4,
@@ -62,9 +62,9 @@ fun getMockMusics(): List<MusicDTO> {
     )
 }
 
-fun queueMockSong(): MusicDTO {
+fun queueMockSong(size: Int): MusicDTO {
     return MusicDTO(
-        2,
+        size + 1,
         "Create a funky house song with female vocals",
         "21.4K users in queue skip",
         R.drawable.property0,
@@ -74,9 +74,9 @@ fun queueMockSong(): MusicDTO {
     )
 }
 
-fun generateMockSong(): MusicDTO {
+fun generateMockSong(size: Int): MusicDTO {
     return MusicDTO(
-        1,
+        size + 1,
         "Create a funky house song with female vocals",
         "Starting AI audio engine",
         R.drawable.property0,

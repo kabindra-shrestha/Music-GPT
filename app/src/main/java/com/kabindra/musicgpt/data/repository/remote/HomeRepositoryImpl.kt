@@ -35,11 +35,11 @@ class HomeRepositoryImpl(
             }
         }
 
-    override suspend fun queueSong(): Flow<Result<Music>> =
+    override suspend fun queueSong(size: Int): Flow<Result<Music>> =
         flow {
             emit(Result.Loading)
             try {
-                val response: MusicDTO = apiDataSource.queueSong()
+                val response: MusicDTO = apiDataSource.queueSong(size)
 
                 // Imitate Api hit
                 delay(1000)
@@ -50,11 +50,11 @@ class HomeRepositoryImpl(
             }
         }
 
-    override suspend fun generateSong(): Flow<Result<Music>> =
+    override suspend fun generateSong(size: Int): Flow<Result<Music>> =
         flow {
             emit(Result.Loading)
             try {
-                val response: MusicDTO = apiDataSource.generateSong()
+                val response: MusicDTO = apiDataSource.generateSong(size)
 
                 // Imitate Api hit
                 delay(1000)

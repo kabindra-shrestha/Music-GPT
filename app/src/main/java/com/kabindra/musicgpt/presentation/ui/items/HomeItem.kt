@@ -1,5 +1,10 @@
 package com.kabindra.musicgpt.presentation.ui.items
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -68,12 +73,21 @@ fun ItemHomeMusic(
                 modifier = Modifier
                     .size(64.dp)
             ) {
-                ImageHandlerRes(
-                    modifier = Modifier
-                        .size(64.dp),
-                    image = content.image!!,
-                    contentDescription = ""
-                )
+                AnimatedContent(
+                    targetState = content.image!!,
+                    transitionSpec = {
+                        fadeIn(animationSpec = tween(800)) togetherWith
+                                fadeOut(animationSpec = tween(800))
+                    },
+                    label = "ImageAnimated"
+                ) { currentImage ->
+                    ImageHandlerRes(
+                        modifier = Modifier
+                            .size(64.dp),
+                        image = currentImage,
+                        contentDescription = ""
+                    )
+                }
                 if (musicSelected != null && musicSelected.id == content.id) {
                     Box(
                         modifier = Modifier

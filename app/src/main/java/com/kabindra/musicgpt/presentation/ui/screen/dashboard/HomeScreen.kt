@@ -8,11 +8,13 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imeNestedScroll
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
@@ -53,6 +55,7 @@ import com.kabindra.musicgpt.utils.enums.CreateSongType
 import com.kabindra.musicgpt.utils.enums.CreationType
 import org.koin.compose.viewmodel.koinViewModel
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel = koinViewModel(),
@@ -112,21 +115,15 @@ fun HomeScreen(
                     .height(54.dp)
             )
 
-            val listModifier = if (showCreateSong) {
-                Modifier
-                    .weight(1f)
-                    .imePadding()
-            } else {
-                Modifier.weight(1f)
-            }
-
             Box(
-                modifier = listModifier
+                modifier = Modifier
+                    .weight(1f)
             ) {
                 if (!homeState.homeData?.music.isNullOrEmpty()) {
                     BaseLazy(
                         modifier = Modifier
-                            .fillMaxSize(),
+                            .fillMaxSize()
+                            .imeNestedScroll(),
                         contentPadding = PaddingValues(0.dp),
                         arrangement = Arrangement.spacedBy(0.dp),
                         items = homeState.homeData?.music!!,
@@ -134,11 +131,12 @@ fun HomeScreen(
                         scrollDirection = LazyScrollDirection.VERTICAL,
                         itemContent = { index, item ->
                             ItemHomeMusic(item, musicSelected) {
-                                musicSelected = if (CreationType.Generated.slug == item.creationType) {
-                                    item
-                                } else{
-                                    null
-                                }
+                                musicSelected =
+                                    if (CreationType.Generated.slug == item.creationType) {
+                                        item
+                                    } else {
+                                        null
+                                    }
                                 showCreateSong = false
                             }
                         },
@@ -207,9 +205,9 @@ fun HomeScreen(
                             showCreateSong = false
 
                             if (CreateSongType.Queue.slug == createSongSelectedField) {
-                                homeViewModel.onEvent(HomeEvent.QueueSong)
+                                homeViewModel.onEvent(HomeEvent.QueueSong(homeState.homeData?.music!!.size))
                             } else if (CreateSongType.Generate.slug == createSongSelectedField) {
-                                homeViewModel.onEvent(HomeEvent.GenerateSong)
+                                homeViewModel.onEvent(HomeEvent.GenerateSong(homeState.homeData?.music!!.size))
                             }
 
                             createSongSelectedField = ""

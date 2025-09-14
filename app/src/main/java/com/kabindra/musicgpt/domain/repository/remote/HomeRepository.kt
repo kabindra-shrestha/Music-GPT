@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
     suspend fun getHomeData(): Flow<Result<Home>>
-    suspend fun queueSong(): Flow<Result<Music>>
-    suspend fun generateSong(): Flow<Result<Music>>
+    suspend fun queueSong(size: Int): Flow<Result<Music>>
+    suspend fun generateSong(size: Int): Flow<Result<Music>>
 }
