@@ -31,6 +31,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults
@@ -271,7 +272,8 @@ fun CreateSongInputField(
             modifier = Modifier
                 .focusRequester(focusRequester)
                 .fillMaxWidth()
-                .height(40.dp),
+                .height(40.dp)
+                .background(MaterialTheme.colorScheme.background),
             decorationBox = { innerTextField ->
                 Box(
                     modifier = Modifier
