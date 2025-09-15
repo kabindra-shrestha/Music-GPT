@@ -195,3 +195,5 @@ Users can queue or generate multiple music items without limitations.
 Multiple music generation processes run independently.
 
 Each generating item updates smoothly and concurrently, providing a seamless experience.
+
+### Demo Video Link: [![Watch the video](art/app_icon.jpg)](art/Screen_Recording.mov)
