@@ -1,7 +1,6 @@
 package com.kabindra.musicgpt
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import coil3.ImageLoader
 import coil3.PlatformContext
 import coil3.compose.setSingletonImageLoaderFactory
@@ -15,7 +14,7 @@ import com.kabindra.musicgpt.presentation.ui.theme.MusicGPTTheme
 import okio.FileSystem
 
 @Composable
-fun App(modifier: Modifier) {
+fun App() {
     MusicGPTTheme {
         setSingletonImageLoaderFactory { context ->
             getAsyncImageLoader(context)

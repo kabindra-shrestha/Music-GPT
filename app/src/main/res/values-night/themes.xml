@@ -4,7 +4,15 @@
     <style name="Theme.MusicGPT.SplashScreen" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">#000000</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon_transparent_small</item>
-        <item name="postSplashScreenTheme">@android:style/Theme.Material.NoActionBar</item>
+        <item name="postSplashScreenTheme">@style/Theme.MusicGPT</item>
+    </style>
+
+    <style name="Theme.MusicGPT" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- no action bar, fully Compose -->
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
     </style>
 
 </resources>

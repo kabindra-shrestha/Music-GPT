@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -40,10 +41,10 @@ import com.kabindra.musicgpt.presentation.ui.component.ButtonIconAndTextRes
 import com.kabindra.musicgpt.presentation.ui.component.CreateSongInputField
 import com.kabindra.musicgpt.presentation.ui.component.LazyListType
 import com.kabindra.musicgpt.presentation.ui.component.LazyScrollDirection
-import com.kabindra.musicgpt.presentation.ui.component.LoadingIndicator
 import com.kabindra.musicgpt.presentation.ui.component.ShowEmpty
 import com.kabindra.musicgpt.presentation.ui.component.TopAppBarWithIconAndNameComponent
 import com.kabindra.musicgpt.presentation.ui.items.ItemHomeMusic
+import com.kabindra.musicgpt.presentation.ui.items.ItemHomeMusicShimmer
 import com.kabindra.musicgpt.presentation.ui.items.ItemHomePlayControl
 import com.kabindra.musicgpt.presentation.ui.theme.buttonBackgroundColor
 import com.kabindra.musicgpt.presentation.ui.theme.textFieldGradientEnd
@@ -104,6 +105,7 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(innerPadding)
+            .consumeWindowInsets(innerPadding)
             .imePadding()
     ) {
         Column(
@@ -119,6 +121,24 @@ fun HomeScreen(
                 modifier = Modifier
                     .weight(1f)
             ) {
+                if (homeState.isLoading) {
+                    BaseLazy(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .imeNestedScroll(),
+                        contentPadding = PaddingValues(0.dp),
+                        arrangement = Arrangement.spacedBy(0.dp),
+                        items = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                        listType = LazyListType.LIST,
+                        scrollDirection = LazyScrollDirection.VERTICAL,
+                        itemContent = { index, item ->
+                            ItemHomeMusicShimmer()
+                        },
+                        onLoadMore = { },
+                        onScrollStateChanged = { },
+                    )
+                }
+
                 if (!homeState.homeData?.music.isNullOrEmpty()) {
                     BaseLazy(
                         modifier = Modifier
@@ -204,9 +224,19 @@ fun HomeScreen(
 
                             showCreateSong = false
 
-                            if (CreateSongType.Queue.slug == createSongSelectedField) {
+                            val selectedField = createSongSelectedField.trim()
+
+                            if (selectedField.equals(
+                                    CreateSongType.Queue.slug,
+                                    ignoreCase = true
+                                )
+                            ) {
                                 homeViewModel.onEvent(HomeEvent.QueueSong(homeState.homeData?.music!!.size))
-                            } else if (CreateSongType.Generate.slug == createSongSelectedField) {
+                            } else if (selectedField.equals(
+                                    CreateSongType.Generate.slug,
+                                    ignoreCase = true
+                                )
+                            ) {
                                 homeViewModel.onEvent(HomeEvent.GenerateSong(homeState.homeData?.music!!.size))
                             }
 
@@ -237,12 +267,12 @@ fun HomeScreen(
             }
         }
 
-        if (homeState.isLoading) {
+        /*if (homeState.isLoading) {
             LoadingIndicator(
                 modifier = Modifier.align(Alignment.Center),
                 isCircular = true
             )
-        }
+        }*/
     }
 
 }

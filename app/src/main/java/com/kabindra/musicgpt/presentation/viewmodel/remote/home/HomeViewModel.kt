@@ -227,15 +227,15 @@ class HomeViewModel(
                     lastCheckpoint = checkpoint
                 }
 
-                delay(25) // adjust speed
+                delay(100) // adjust speed
                 progress += 1
             }
 
             // After loop → mark as completed
+            delay(1000)
             onEvent(HomeEvent.UpdateProgressSong(id, -1)) // special completed state
         }
     }
-
 
     fun resetStates() {
         _homeState.value = HomeState()

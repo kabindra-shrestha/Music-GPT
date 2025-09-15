@@ -42,7 +42,7 @@ fun getMockMusics(): List<MusicDTO> {
             CreationType.Generated.slug
         ),
         MusicDTO(
-            1,
+            2,
             "Enemy",
             "Compose a poem about the meaning of life.",
             R.drawable.voice_pic3,
