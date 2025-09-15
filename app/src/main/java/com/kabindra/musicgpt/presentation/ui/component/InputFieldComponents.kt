@@ -285,13 +285,13 @@ fun CreateSongInputField(
                         .dropShadow(
                             shape = RoundedCornerShape(cornerRadius * 2),
                             shadow = Shadow(
-                                radius = 4.dp,
-                                spread = 6f.dp,
+                                radius = 24.dp,
+                                spread = 10f.dp,
                                 brush = Brush.horizontalGradient(
                                     gradientColors
                                 ),
                                 offset = DpOffset(x = 0.dp, y = 0.dp),
-                                alpha = 1f
+                                alpha = 0.25f,
                             )
                         )
                         .clip(RoundedCornerShape(cornerRadius * 2))

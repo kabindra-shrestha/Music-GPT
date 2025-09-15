@@ -20,6 +20,10 @@ Pattern to ensure separation of concerns, scalability, and testability.
 
 <p align="center"><img src="art/clean_arch.jpeg" alt="Clean Architecture"></p>
 
+## Flow:
+
+### Screen → ViewModel → UseCase → Repository → RepositoryImpl → DataSources
+
 ## Layers
 
 ### Project Structure
@@ -60,3 +64,59 @@ Components of domain layer include:
 
 ### Presentation
 The ```features``` layer contains components involved in showing information to the user. The main part of this layer are the views(activity, compose) and ViewModels.
+
+## Features & Functionality
+
+### Default Splash Screen: 
+The app uses the system default splash screen for fast initial loading.
+
+### Custom Splash Screen: 
+A custom splash screen is added to simulate an API hit and improve the user experience.
+
+### Dashboard Navigation: 
+After the splash, users are redirected to the dashboard featuring:
+
+- __Top Bar__: Displays the app logo.
+
+- __Bottom Navigation__: Includes Home, Discover, Recommended, and Profile sections.
+
+### Home Screen:
+
+Simulates an API call by showing shimmer placeholders.
+
+Loads mock music data smoothly.
+
+### Mini Player Animations:
+
+Clicking playable or generated music triggers a mini player with slide-in and fade-in animations.
+
+Clicking unplayable items like queued or generating music triggers a slide-out and fade-out animation.
+
+### Create Music Input:
+
+A Create button opens an attractive input text field.
+
+The input field supports "queue" and "generate" keywords, featuring gradient borders and gradient shadows for a modern ambience.
+
+### Queue Music:
+
+Entering the "queue" keyword adds a queued music item to the list.
+
+Updates are reflected smoothly in the UI.
+
+### Generate Music:
+
+Entering the "generate" keyword creates a new music item.
+
+Shows a generating state to simulate an API call.
+
+The UI updates progress smoothly while generating music.
+
+### Unlimited Music Actions: 
+Users can queue or generate multiple music items without limitations.
+
+### Smooth Multi-Music Generation:
+
+Multiple music generation processes run independently.
+
+Each generating item updates smoothly and concurrently, providing a seamless experience.
