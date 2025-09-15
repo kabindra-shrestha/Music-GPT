@@ -87,4 +87,8 @@ dependencies {
     implementation(libs.bundles.coil)
 
     implementation(libs.lottie.compose)
+
+    implementation(libs.compose.shimmer)
+
+    implementation(libs.material)
 }

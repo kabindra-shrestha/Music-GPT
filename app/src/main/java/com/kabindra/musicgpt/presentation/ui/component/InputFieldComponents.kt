@@ -45,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -53,6 +54,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
@@ -63,6 +65,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kabindra.musicgpt.presentation.ui.theme.inputFieldDefault
@@ -278,72 +281,93 @@ fun CreateSongInputField(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(40.dp)
-                        .drawBehind {
-                            val strokeWidth = borderWidth.toPx()
-                            val radius = cornerRadius.toPx()
-                            val brush = Brush.horizontalGradient(colors = gradientColors)
-
-                            drawRoundRect(
-                                brush = brush,
-                                size = size.copy(
-                                    width = size.width - strokeWidth,
-                                    height = size.height - strokeWidth
+                        .height(100.dp)
+                        .dropShadow(
+                            shape = RoundedCornerShape(cornerRadius * 2),
+                            shadow = Shadow(
+                                radius = 4.dp,
+                                spread = 6f.dp,
+                                brush = Brush.horizontalGradient(
+                                    gradientColors
                                 ),
-                                cornerRadius = CornerRadius(radius, radius),
-                                style = Stroke(width = strokeWidth)
+                                offset = DpOffset(x = 0.dp, y = 0.dp),
+                                alpha = 1f
                             )
-                        }
-                        .background(Color.Transparent, shape = RoundedCornerShape(cornerRadius))
-                        .padding(horizontal = 8.dp, vertical = 6.dp), // control padding here
-                    contentAlignment = Alignment.CenterStart
+                        )
+                        .clip(RoundedCornerShape(cornerRadius * 2))
+                        .background(MaterialTheme.colorScheme.background),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Row(
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(40.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                            .height(40.dp)
+                            .drawBehind {
+                                val strokeWidth = borderWidth.toPx()
+                                val radius = cornerRadius.toPx()
+                                val brush = Brush.horizontalGradient(colors = gradientColors)
+
+                                drawRoundRect(
+                                    brush = brush,
+                                    size = size.copy(
+                                        width = size.width - strokeWidth,
+                                        height = size.height - strokeWidth
+                                    ),
+                                    cornerRadius = CornerRadius(radius, radius),
+                                    style = Stroke(width = strokeWidth)
+                                )
+                            }
+                            .background(Color.Transparent, shape = RoundedCornerShape(cornerRadius))
+                            .padding(horizontal = 8.dp, vertical = 6.dp), // control padding here
+                        contentAlignment = Alignment.CenterStart
                     ) {
-                        // Leading icon
-                        leadingIcon?.let {
-                            ImageHandlerRes(
-                                modifier = Modifier
-                                    .size(24.dp)
-                                    .clip(CircleShape),
-                                image = it,
-                                contentDescription = "",
-                                isClickable = true,
-                                onClick = { onClickLeadingIcon() }
-                            )
-                            Spacer(modifier = Modifier.width(6.dp))
-                        }
-
-                        // Text field content or placeholder
-                        if (value.isEmpty()) {
-                            TextComponent(
-                                text = label,
-                                color = Color.Gray
-                            )
-                        }
-
-                        Box(
-                            modifier = Modifier.weight(1f)
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(40.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            innerTextField()
-                        }
+                            // Leading icon
+                            leadingIcon?.let {
+                                ImageHandlerRes(
+                                    modifier = Modifier
+                                        .size(24.dp)
+                                        .clip(CircleShape),
+                                    image = it,
+                                    contentDescription = "",
+                                    isClickable = true,
+                                    onClick = { onClickLeadingIcon() }
+                                )
+                                Spacer(modifier = Modifier.width(6.dp))
+                            }
 
-                        // Trailing icon
-                        trialingIcon?.let {
-                            Spacer(modifier = Modifier.width(6.dp))
-                            ImageHandlerRes(
-                                modifier = Modifier
-                                    .size(24.dp)
-                                    .clip(CircleShape),
-                                image = it,
-                                contentDescription = "",
-                                isClickable = true,
-                                onClick = { onClickTrailingIcon() }
-                            )
+                            // Text field content or placeholder
+                            if (value.isEmpty()) {
+                                TextComponent(
+                                    text = label,
+                                    color = Color.Gray
+                                )
+                            }
+
+                            Box(
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                innerTextField()
+                            }
+
+                            // Trailing icon
+                            trialingIcon?.let {
+                                Spacer(modifier = Modifier.width(6.dp))
+                                ImageHandlerRes(
+                                    modifier = Modifier
+                                        .size(24.dp)
+                                        .clip(CircleShape),
+                                    image = it,
+                                    contentDescription = "",
+                                    isClickable = true,
+                                    onClick = { onClickTrailingIcon() }
+                                )
+                            }
                         }
                     }
                 }
