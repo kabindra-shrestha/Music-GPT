@@ -196,4 +196,4 @@ Multiple music generation processes run independently.
 
 Each generating item updates smoothly and concurrently, providing a seamless experience.
 
-### Demo Video Link: [![Watch the video](art/app_icon.jpg)](art/Screen_Recording.mov)
+### Demo Video Link: [![Watch the video]](https://drive.google.com/file/d/1-uzIhiGq2xNiWJirGtBEVBEoO2AU7Q3c/view?usp=sharing)
